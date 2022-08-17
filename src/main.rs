@@ -1,13 +1,29 @@
+use std::io;
+
 
 fn main() {
-    println!("Hello, Fibonacci!");
-    // Recursive fibonacci implementation
-    for int in 0..10 {
-        print!("{} ", fibonacci_re(int));
+    println!("Hello, Fibonacci! (Exit with ctrl+c)");
+    loop {
+        println!("Please input your fibonacci range:");
+        let mut input = String::new();
+        io::stdin()
+            .read_line(&mut input)
+            .expect("Failed to read your input");
+        let input: u64 = match input.trim().parse(){
+            Ok(num) => num,
+            Err(_) => continue,
+        };
+        
+        // Recursive fibonacci implementation
+        println!("Recursive Fibonacci Implementation: ");
+        for int in 0..input {
+            print!("{} ", fibonacci_re(int));
+        }
+        println!("");
+        println!("Non Recursive Fibonacci Implementation: ");
+        //Non recursive fibonacci implementation
+        fibonacci(input);
     }
-    println!("");
-    //Non recursive fibonacci implementation
-    fibonacci(10);
 }
 
 pub fn fibonacci_re(n: u64) -> u64 {
@@ -20,15 +36,15 @@ pub fn fibonacci_re(n: u64) -> u64 {
     }
 }
 
-pub fn fibonacci(count: i64) {
-    let (mut n1, mut n2, mut n3): (i64, i64, i64) =(0,1,0);
+pub fn fibonacci(count: u64) {
+    let (mut n1, mut n2, mut n3): (u64, u64, u64) =(0,1,0);
     if count < 1 {
         print!("0");
     }else if count == 1 {
         println!("{}", n1);
     }else {
         print!("{0} {1}",n1, n2);
-        for i in 2..count  {
+        for _i in 2..count  {
             n3 = n1+n2;
             print!(" {n3}");
             n1 = n2;

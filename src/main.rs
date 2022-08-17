@@ -1,4 +1,4 @@
-use std::{io, ptr::null};
+use std::{cmp::Ordering, io};
 
 fn main() {
     println!("Hello, Fibonacci! (Exit with ctrl+c)");
@@ -24,27 +24,27 @@ fn main() {
 
 pub fn fibonacci_re(n: u64) -> u64 {
     if n == 0 {
-        return 0;
+        0
     } else if n == 1 {
-        return 1;
+        1
     } else {
-        return fibonacci_re(n - 1) + fibonacci_re(n - 2);
+        fibonacci_re(n - 1) + fibonacci_re(n - 2)
     }
 }
 
 pub fn fibonacci(count: u64) {
-    let (mut n1, mut n2, mut n3): (u64, u64, u64) = (0, 1, 0);
-    if count < 1 {
-        print!("0");
-    } else if count == 1 {
-        println!("{}", n1);
-    } else {
-        print!("{0} {1}", n1, n2);
-        for _i in 2..count {
-            n3 = n1 + n2;
-            print!(" {n3}");
-            n1 = n2;
-            n2 = n3;
+    let (mut n1, mut n2): (u64, u64) = (0, 1);
+    match count.cmp(&1) {
+        Ordering::Less => print!("0"),
+        Ordering::Equal => println!("{}", n1),
+        Ordering::Greater => {
+            print!("{0} {1}", n1, n2);
+            for _i in 2..count {
+                let n3 = n1 + n2;
+                print!(" {n3}");
+                n1 = n2;
+                n2 = n3;
+            }
         }
     }
     println!();
